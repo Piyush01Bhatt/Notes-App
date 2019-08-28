@@ -8,18 +8,26 @@ const getNotes = function(){
 const addNotes = function(title, body){
     const notes = loadNotes()
 
-    notes.push({
-        title: title,
-        body : body
+    const duplicateNotes = notes.filter(function(note){
+        return note.title === title
     })
 
-    saveNotes(notes)
+    if(duplicateNotes.length === 0){
+        notes.push({
+            title: title,
+            body : body
+        })
+    
+        saveNotes(notes)
+    }else{
+        console.log(chalk.red('...Duplicate Title Found...'))
+    }
 }
 
 const saveNotes = function(notes){
     const dataJSON = JSON.stringify(notes)
     fs.writeFileSync('notes.json', dataJSON)
-    console.log(chalk.green(('...Note Saved...')))
+    console.log(chalk.green('...New Note Saved...'))
 }
 
 const loadNotes = function(){
