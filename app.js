@@ -34,8 +34,8 @@ yargs.command({
             type : 'string'
         }
     },
-    handler : function(){
-        console.log(chalk.blue('Removing Notes...'))
+    handler : function(argv){
+        notes.removeNotes(argv.title)
     }
 })
 

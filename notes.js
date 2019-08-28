@@ -19,15 +19,34 @@ const addNotes = function(title, body){
         })
     
         saveNotes(notes)
+        console.log(chalk.green('...New Note Saved...'))
     }else{
         console.log(chalk.red('...Duplicate Title Found...'))
+    }
+}
+
+const removeNotes = function(title){
+    const notes = loadNotes()
+
+    const filteredNotes = notes.filter(function(note){
+        return note.title !== title
+    })
+
+    if(notes.length === 0){
+        console.log(chalk.bgRed(`There are no notes to be deleted`))
+    }else {
+            if(filteredNotes.length === notes.length){
+            console.log(chalk.red(`No note with matching title ${chalk.yellow(title)} found`))
+        }else{
+            saveNotes(filteredNotes)
+            console.log(chalk.green(`Removed Note with title : ${chalk.yellow(title)}`))
+        }
     }
 }
 
 const saveNotes = function(notes){
     const dataJSON = JSON.stringify(notes)
     fs.writeFileSync('notes.json', dataJSON)
-    console.log(chalk.green('...New Note Saved...'))
 }
 
 const loadNotes = function(){
@@ -43,5 +62,6 @@ const loadNotes = function(){
 
 module.exports = {
     addNotes : addNotes,
-    getNotes : getNotes
+    getNotes : getNotes,
+    removeNotes : removeNotes
 }
