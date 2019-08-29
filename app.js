@@ -44,7 +44,7 @@ yargs.command({
     command : 'list',
     describe : 'list the notes',
     handler(){
-        console.log(chalk.blue('Listing Notes...'))
+        notes.listNotes()
     }
 })
 
@@ -60,7 +60,7 @@ yargs.command({
         }
     },
     handler(argv){
-        console.log(chalk.blue('Reading Notes...'),argv)
+        notes.readNote(argv.title)
     }
 })
 

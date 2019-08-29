@@ -8,9 +8,9 @@ const getNotes = ()=>{
 const addNotes = (title, body)=>{
     const notes = loadNotes()
 
-    const duplicateNotes = notes.filter((note)=>note.title === title)
+    const duplicateNote = notes.find((note)=>note.title === title)
 
-    if(duplicateNotes.length === 0){
+    if(!duplicateNote){
         notes.push({
             title: title,
             body : body
@@ -19,7 +19,7 @@ const addNotes = (title, body)=>{
         saveNotes(notes)
         console.log(chalk.green('...New Note Saved...'))
     }else{
-        console.log(chalk.red('...Duplicate Title Found...'))
+        console.log(chalk.red('...Duplicate Title...'))
     }
 }
 
@@ -56,8 +56,37 @@ const loadNotes = ()=>{
     }
 }
 
+const listNotes = ()=>{
+    const notes = loadNotes()
+    if(notes.length >= 0){
+        console.log(chalk.magenta('\n...Your Notes...\n'))
+        var k = 1
+        notes.forEach((note)=>{
+            console.log(`${k} - ${chalk.cyan(note.title)}`)
+            k += 1
+        })
+        console.log('\n')
+    }else{
+        console.log(chalk.red('...No notes to display...'))
+    }
+}
+
+const readNote = (title)=>{
+    const notes = loadNotes()
+
+    const findNote = notes.find((note)=>note.title === title)
+
+    if(findNote){
+        console.log(`\n ${chalk.yellow(findNote.title)}`)
+        console.log(`\n ${chalk.green(findNote.body)} \n`)
+    }else{
+        console.log(chalk.red('...Note note Found...'))
+    }
+}
+
 module.exports = {
     addNotes : addNotes,
-    getNotes : getNotes,
-    removeNotes : removeNotes
+    removeNotes : removeNotes,
+    listNotes : listNotes,
+    readNote : readNote
 }
